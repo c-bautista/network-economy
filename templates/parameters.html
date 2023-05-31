@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}
+Single run
+{% endblock %}
+
+{% block options %}
+		<li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home')}}">Theory</a>
+                </li>
+                <li class="nav-item active">
+                        <a class="nav-link" href="{{ url_for('single_run')}}">Single run</a>
+                </li>
+                <li class="nav-item navbar-right">
+                        <a class="nav-link" href="{{ url_for('scan')}}">Scan</a>
+                </li>
+{% endblock %}
+
+{% block content %}
+<body class='center'>
+	<div class='container' style='width:550px'>
+		<form method="POST" class="form-register">
+			<br>
+			<h1 class='h3'> Please, enter parameters </h1>
+			{{ form_single.hidden_tag() }}
+			<br>
+			{{ form_single.periods.label() }}
+			{{ form_single.periods(class="form-control", style = "width:500px", placeholder = "Ex: 1000")}}
+			<br>	
+			{{ form_single.p.label() }}
+			{{ form_single.p(class="form-control", style = "width:500px", placeholder = "Value between 0 and 1. Ex: 0.3")}}
+			<br>
+			{{ form_single.q.label() }}
+			{{ form_single.q(class="form-control", style= "width:500px", placeholder="Value between 0 and 1. Ex: 0.2")}}
+
+			<br>
+			{{ form_single.submit(class="btn btn-lg btn-block btn-primary", style="width:500px")}}
+		</form>
+	</div>
+</body>
+{% endblock %}

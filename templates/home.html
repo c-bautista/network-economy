@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}
+Theory
+{% endblock %}
+
+{% block options %}
+		<li class="nav-item active">
+			<a class="nav-link" href="{{ url_for('home')}}">Theory<span class="sr-only">(current)></span></a>
+                </li>
+                <li class="nav-item">
+			<a class="nav-link" href="{{ url_for('single_run')}}">Single run</a>
+                </li>
+                <li class="nav-item navbar-right">
+                        <a class="nav-link" href="{{ url_for('scan')}}">Scan</a>
+                </li>
+{% endblock %}
+
+{% block content %}
+	<script type="text/javascript"
+        	src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_CHTML"></script>
+	
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [['$','$'], ['\\(','\\)']],
+processEscapes: true},
+jax: ["input/TeX","input/MathML","input/AsciiMath","output/CommonHTML"],
+extensions: ["tex2jax.js","mml2jax.js","asciimath2jax.js","MathMenu.js","MathZoom.js","AssistiveMML.js", "[Contrib]/a11y/accessibility-menu.js"],
+TeX: {
+extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"],
+equationNumbers: {
+autoNumber: "AMS"
+}
+}
+});
+</script>
+	
+
+	<body class='text-left'>
+		<div class='container' style='width:700px'>
+			<br>
+		{% filter markdown %}
+### Introduction
+This is a simulation of an economic credit network with three economic sectors (banks, downstream firms and upstream firms) holding credit relationships:
+
+- **Banks sector**: They provide credit finance to both upstream and downstream firms.
+- **Upstream firms sector**: They transform the primary goods into intermediate goods and sell them to the downstream firms. They borrow money from banks to finance its salary wage when needed.
+- **Downstream firms sector**: They convert the intermediate goods into the final goods that will be finally sold to consumers. They buy the intermediate goods from the upstream firms through a comercial credit and borrow money from banks to finance its salary wage when needed.
+
+At each period, downstream and upstream firms choose to connect to the bank that offers the lowest credit rate from a random sample of 5 banks. The downstream firms choose to connect to the upstream firm that offers the lowest comercial credit rate from a random sample of 5 upstream firms. As a result of the credit debts, firms can go bankrupt which, in turn, provokes unpaid debts to upstream firms and banks, possibly propagating the bankruptcies.
+
+The network's implementation was based on <a href="https://www8.gsb.columbia.edu/faculty/jstiglitz/sites/jstiglitz/files/2009_Business_Fluctuations_and_Bankruptcy_Avalances.pdf">this article</a>. Please, refer to it for deeper insight. The complete implementation can be found in <a href="https://github.com/c-bautista/credit-network">this github repository</a>. Here, I focus on the impact of the bank credit on the network's evolution.
+
+### Bank credit rate
+The credit rate that banks charge to firms is given by the equation:
+
+\begin{equation}\label{eq:credit_rate}
+r = p A_b^{-p} + q (B/A_f)^q
+%r = \sigma A_b ^{-\sigma} + \theta (B/A_f)^{\theta}
+\end{equation}
+
+where $A_b$ is the bank's net worth, $A_f$ is the firm's net worth and $B$ is the amount of credit required by the firm. $p$ and $q$ are positive parameters that control the importance of each term in equation (1).
+
+Each term of equation (1) has a clear interpretation:
+
+- The first term contains the information of the robustness of the bank in financial terms. When the bank has a low net worth, it increments the credit rate to reduce the amount of credit requirements. When the bank has a high net worth, it drops the credit rate allowing more clients to ask for credit. ** The banks net worth importance is controled by the parameter $p$**.
+
+- The second term contains the information of the firms' financial strength. The ratio $B/A_f$ is the firms' leverage. Thus, the biggest the leverage, the biggest the credit rate. **The leverage importance in the computation of the credit rate is controled by the parameter $q$**.
+
+### References
+- *Business fluctuations and bankruptcy avalanches in an evolving network economy*. Delli Gatti et. al. J. Econ. Interact. Coord. (2009) 4:195–212
+
+		{% endfilter %}
+
+		</div>
+	</body>
+{% endblock %}

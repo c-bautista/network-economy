@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}
+Scan
+{% endblock %}
+
+{% block options %}
+                <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home')}}">Theory</a>
+                </li>
+                <li class="nav-item ">
+                        <a class="nav-link" href="{{ url_for('single_run')}}">Single run</a>
+                </li>
+                <li class="nav-item active navbar-right">
+                        <a class="nav-link" href="{{ url_for('scan')}}">Scan</a>
+                </li>
+{% endblock %}
+
+
+{% block content %}
+	<div class='container' style='width:550px'>
+		<br>
+		<h1 class='h3'> Please, select a parameter and its scan values</h1>
+                <form method="POST" class="form-register">
+                        {{ form_scan.hidden_tag() }}
+                        <br>
+			{{ form_scan.select_param.label()}}
+			{{ form_scan.select_param(class="form-control", style="width:500px")}}
+			<br>
+                        {{ form_scan.scan_values.label() }}
+                        {{ form_scan.scan_values(class="form-control", style="width:500px", placeholder="Values separated by commas. Ex: 0.1, 0.2, 0.3, 0.4, 0.5")}}
+                        <br>
+                        {{ form_scan.submit_scan(class="btn btn-lg btn-block btn-primary", style="width:500px")}}
+                </form>
+        </div>
+
+{% endblock %}
